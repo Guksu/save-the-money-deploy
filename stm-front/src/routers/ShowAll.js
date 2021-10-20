@@ -1,10 +1,10 @@
 import React from "react";
 import Base from "../components/Base";
 
-const ShowAll = () => {
+const ShowAll = ({ islogin }) => {
   return (
     <>
-      <Base></Base>
+      <Base islogin={islogin}></Base>
       <ul>
         <li>
           09/10 지출 0원

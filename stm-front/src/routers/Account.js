@@ -1,10 +1,10 @@
 import React from "react";
 import Base from "../components/Base";
 
-const Account = () => {
+const Account = ({ islogin }) => {
   return (
     <>
-      <Base></Base>
+      <Base islogin={islogin}></Base>
       <form>
         <input type="date" placeholder="날짜를 선택하세요" required></input>
         <input

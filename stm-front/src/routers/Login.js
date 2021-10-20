@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 
 const Login = () => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
+  const [islogin, setIslogin] = useState(false);
   const history = useHistory();
 
   const onLoginClick = async () => {
@@ -13,17 +14,20 @@ const Login = () => {
       password: password,
     })
       .then((res) => {
-        if (res.status === 200) {
-          history.push({
-            pathname: "/home",
-            state: { id: id },
-          });
-        }
+        setIslogin(true);
+        sessionStorage.setItem("id", id);
       })
       .catch((err) => {
         alert("다시 로그인하세요");
       });
   };
+
+  useEffect(() => {
+    if (islogin) {
+      history.push("/home");
+      window.location.reload();
+    }
+  });
 
   const onSocialLogin = () => {};
 
