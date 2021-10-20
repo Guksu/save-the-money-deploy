@@ -33,25 +33,17 @@ app.post("/adduser", (req, res) => {
     (err, result) => {
       if (err) {
         console.log(err);
-        res.status(409).send("error");
-      } else {
-        res.send("Good");
+        res.status(404).send();
       }
     }
   );
 });
 
 //로그인//
-app.post("/login", (req, res) => {
+app.post("/login", async (req, res) => {
   const {
     body: { id, password },
   } = req;
-
-  const hashPassword = bcryptjs.hashSync(password, 5, (err, hash) => {
-    if (err) {
-      console.log(err);
-    }
-  });
 
   db.query("SELECT * FROM userregister WHERE userid=?", id, (err, resultId) => {
     if (err) {
@@ -59,15 +51,23 @@ app.post("/login", (req, res) => {
     }
 
     if (resultId.length > 0) {
-      bcryptjs.compareSync(password, hashPassword, (error, resultPw) => {
-        if (resultPw) {
-        } else {
-          console.log(error);
-        }
-      });
+      if (
+        bcryptjs.compareSync(
+          password,
+          resultId[0].userpassword,
+          (error, resultPw) => {
+            if (error) {
+              console.log(error);
+            }
+          }
+        )
+      ) {
+      } else {
+        res.status(404).send();
+      }
     } else {
       console.log("로그인실패");
-      res.status(404).send("Try again");
+      res.status(404).send();
     }
     res.status(200).send();
   });

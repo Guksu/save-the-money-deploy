@@ -14,7 +14,10 @@ const Login = () => {
     })
       .then((res) => {
         if (res.status === 200) {
-          history.push("/home");
+          history.push({
+            pathname: "/home",
+            state: { id: id },
+          });
         }
       })
       .catch((err) => {

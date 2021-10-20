@@ -6,11 +6,15 @@ const RegisterUser = () => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
 
-  const addUser = () => {
-    Axios.post("http://localhost:4000/adduser", {
+  const addUser = async () => {
+    await Axios.post("http://localhost:4000/adduser", {
       id: id,
       password: password,
-    });
+    })
+      .then((res) => {})
+      .catch((err) => {
+        alert("중복된 아이디입니다.");
+      });
   };
 
   return (
