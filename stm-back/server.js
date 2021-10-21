@@ -73,30 +73,33 @@ app.post("/login", async (req, res) => {
   });
 });
 
-//카카오로그인
-app.post("/kakaologin", async (req, res) => {
-  const {
-    body: { code },
-  } = req;
+// //카카오로그인
+// app.post("/kakaologin", async (req, res) => {
+//   const {
+//     body: { code },
+//   } = req;
 
-  const hashcode = bcryptjs.hashSync(code, 5, (err, result) => {
-    if (err) {
-      console.log(err);
-    }
-  });
+//   const hashcode = bcryptjs.hashSync(code, 5, (err, result) => {
+//     if (err) {
+//       console.log(err);
+//     }
+//   });
 
-  db.query(
-    "INSERT INTO socialuser (userid) VALUES (?)",
-    [hashcode],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-        res.status(404).send();
-      }
-    }
-  );
-  res.status(200).send();
-});
+//   db.query(
+//     "INSERT INTO socialuser (userid) VALUES (?)",
+//     [hashcode],
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//         res.status(404).send();
+//       }
+//     }
+//   );
+//   res.status(200).send();
+// });
+
+//가계부 작성
+app.post("/account", async (req, res) => {});
 
 app.listen(4000, () => {
   console.log("Server Start at Port 4000!🚀🚀");

@@ -23,23 +23,30 @@ const Login = () => {
   };
 
   const onKaKaoLogin = async () => {
-    Kakao.Auth.authorize({
-      redirectUri: "http://localhost:3000/oauth/kakao",
-    });
-    let code = new URL(window.location.href).searchParams.get("code");
-    console.log(code);
-
-    await Axios.post("http://localhost:4000/kakaologin", {
-      code: code,
-    })
-      .then((res) => {
-        sessionStorage.setItem("id", code);
-      })
-      .catch((err) => {
-        alert("다시 로그인하세요");
-      });
-
-    setIslogin(true);
+    // await Kakao.Auth.authorize({
+    //   redirectUri: "http://localhost:3000/oauth/kakao",
+    // });
+    // let code = new URL(window.location.href).searchParams.get("code");
+    // console.log(code);
+    // await Axios.post("http://localhost:4000/kakaologin", {
+    //   code: code,
+    // })
+    //   .then((res) => {
+    //     sessionStorage.setItem("id", code);
+    //   })
+    //   .catch((err) => {
+    //     alert("다시 로그인하세요");
+    //   });
+    // setIslogin(true);
+    // Kakao.Auth.login({
+    //   success: function (authObj) {
+    //     console.log(authObj);
+    //   },
+    //   fail: function (err) {
+    //     console.log(err);
+    //     alert("다시 로그인해주세요");
+    //   },
+    // });
   };
 
   const onGitHubLogin = () => {};
