@@ -13,7 +13,6 @@ const AppRouter = () => {
       setIslogin(true);
     }
   });
-
   return (
     <Router>
       <Switch>

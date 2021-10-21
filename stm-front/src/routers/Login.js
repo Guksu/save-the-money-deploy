@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import { Link, useHistory } from "react-router-dom";
-
+const { Kakao } = window;
 const Login = () => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
@@ -22,15 +22,34 @@ const Login = () => {
       });
   };
 
+  const onKaKaoLogin = async () => {
+    Kakao.Auth.authorize({
+      redirectUri: "http://localhost:3000/oauth/kakao",
+    });
+    let code = new URL(window.location.href).searchParams.get("code");
+    console.log(code);
+
+    await Axios.post("http://localhost:4000/kakaologin", {
+      code: code,
+    })
+      .then((res) => {
+        sessionStorage.setItem("id", code);
+      })
+      .catch((err) => {
+        alert("다시 로그인하세요");
+      });
+
+    setIslogin(true);
+  };
+
+  const onGitHubLogin = () => {};
+
   useEffect(() => {
     if (islogin) {
       history.push("/home");
       window.location.reload();
     }
   });
-
-  const onSocialLogin = () => {};
-
   return (
     <>
       <input
@@ -56,10 +75,10 @@ const Login = () => {
         <button>회원가입</button>
       </Link>
       <div>
-        <button onClick={onSocialLogin} name="github">
+        <button onClick={onGitHubLogin} name="github">
           깃허브 로그인
         </button>
-        <button onClick={onSocialLogin} name="kakao">
+        <button onClick={onKaKaoLogin} name="kakao">
           카카오 로그인
         </button>
       </div>
