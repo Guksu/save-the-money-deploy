@@ -1,19 +1,35 @@
 import React, { useState } from "react";
 import Base from "../components/Base";
 import { useHistory } from "react-router-dom";
+import Axios from "axios";
+
 const Account = ({ islogin }) => {
   const history = useHistory();
+
   const onClickBackHome = () => {
-    history.goBack();
+    history.push("/home");
   };
 
   const [date, setDate] = useState("");
   const [profit, setProfit] = useState(0);
   const [expense, setExpense] = useState(0);
-  const [profitSelect, setProfitSelect] = useState("");
-  const [expenseSelect, setExpenseSelect] = useState("");
+  const [profitSelect, setProfitSelect] = useState("profit_etc");
+  const [expenseSelect, setExpenseSelect] = useState("expense_etc");
 
-  const onSubmitAccount = () => {};
+  const onSubmitAccount = async (e) => {
+    await Axios.post("http://localhost:4000/account", {
+      date: date,
+      profit: profit,
+      expense: expense,
+      profitSelect: profitSelect,
+      expenseSelect: expenseSelect,
+      userid: sessionStorage.getItem("id"),
+    })
+      .then((res) => {})
+      .catch((err) => {
+        alert("다시 입력하세요");
+      });
+  };
 
   return (
     <>
@@ -42,9 +58,10 @@ const Account = ({ islogin }) => {
               setProfitSelect(event.target.value);
             }}
           >
+            <option value="">카테고리를 선택하세요</option>
             <option value="wage">급여</option>
             <option value="profit_investment">투자</option>
-            <option value="pocketMoney">용돈</option>
+            <option value="pocketmoney">용돈</option>
             <option value="profit_etc">기타등등</option>
           </select>
         </div>
@@ -63,6 +80,7 @@ const Account = ({ islogin }) => {
               setExpenseSelect(event.target.value);
             }}
           >
+            <option value="">카테고리를 선택하세요</option>
             <option value="food">식비</option>
             <option value="clothes">의류비</option>
             <option value="expense_investment">투자</option>

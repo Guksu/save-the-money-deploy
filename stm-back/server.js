@@ -99,7 +99,37 @@ app.post("/login", async (req, res) => {
 // });
 
 //가계부 작성
-app.post("/account", async (req, res) => {});
+app.post("/account", async (req, res) => {
+  const {
+    body: { date, profit, expense, profitSelect, expenseSelect, userid },
+  } = req;
+
+  if (profit !== 0) {
+    db.query(
+      `INSERT INTO  ${profitSelect} (userid, profit, date) VALUES (?,?,?)`,
+      [userid, profit, date],
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          res.status(404).send();
+        }
+      }
+    );
+  }
+
+  if (expense !== 0) {
+    db.query(
+      `INSERT INTO  ${expenseSelect} (userid, date, expense) VALUES (?,?,?)`,
+      [userid, date, expense],
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          res.status(404).send();
+        }
+      }
+    );
+  }
+});
 
 app.listen(4000, () => {
   console.log("Server Start at Port 4000!🚀🚀");

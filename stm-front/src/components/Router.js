@@ -19,13 +19,13 @@ const AppRouter = () => {
         {islogin ? (
           <>
             <Route exact path="/home">
-              <Home islogin={islogin}></Home>
+              <Home></Home>
             </Route>
             <Route exact path="/account">
-              <Account islogin={islogin}></Account>
+              <Account></Account>
             </Route>
             <Route exact path="/showall">
-              <ShowAll islogin={islogin}></ShowAll>
+              <ShowAll></ShowAll>
             </Route>
           </>
         ) : (

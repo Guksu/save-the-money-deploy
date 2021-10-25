@@ -1,7 +1,12 @@
 import React from "react";
+import { useHistory } from "react-router";
 import Base from "../components/Base";
 
 const ShowAll = ({ islogin }) => {
+  const history = useHistory();
+  const onClickBackHome = () => {
+    history.push("/home");
+  };
   return (
     <>
       <Base islogin={islogin}></Base>
@@ -12,6 +17,7 @@ const ShowAll = ({ islogin }) => {
           <button>❌</button>
         </li>
       </ul>
+      <button onClick={onClickBackHome}>돌아가기</button>
     </>
   );
 };
