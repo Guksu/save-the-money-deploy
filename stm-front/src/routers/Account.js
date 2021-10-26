@@ -3,7 +3,7 @@ import Base from "../components/Base";
 import { useHistory } from "react-router-dom";
 import Axios from "axios";
 
-const Account = ({ islogin }) => {
+const Account = () => {
   const history = useHistory();
 
   const onClickBackHome = () => {
@@ -13,8 +13,8 @@ const Account = ({ islogin }) => {
   const [date, setDate] = useState("");
   const [profit, setProfit] = useState(0);
   const [expense, setExpense] = useState(0);
-  const [profitSelect, setProfitSelect] = useState("profit_etc");
-  const [expenseSelect, setExpenseSelect] = useState("expense_etc");
+  const [profitSelect, setProfitSelect] = useState("기타등등");
+  const [expenseSelect, setExpenseSelect] = useState("기타등등");
 
   const onSubmitAccount = async (e) => {
     await Axios.post("http://localhost:4000/account", {
@@ -33,7 +33,7 @@ const Account = ({ islogin }) => {
 
   return (
     <>
-      <Base islogin={islogin}></Base>
+      <Base></Base>
       <form onSubmit={onSubmitAccount}>
         <input
           type="date"
@@ -59,10 +59,10 @@ const Account = ({ islogin }) => {
             }}
           >
             <option value="">카테고리를 선택하세요</option>
-            <option value="wage">급여</option>
-            <option value="profit_investment">투자</option>
-            <option value="pocketmoney">용돈</option>
-            <option value="profit_etc">기타등등</option>
+            <option value="급여">급여</option>
+            <option value="투자">투자</option>
+            <option value="용돈">용돈</option>
+            <option value="기타등등">기타등등</option>
           </select>
         </div>
         <div>
@@ -81,11 +81,11 @@ const Account = ({ islogin }) => {
             }}
           >
             <option value="">카테고리를 선택하세요</option>
-            <option value="food">식비</option>
-            <option value="clothes">의류비</option>
-            <option value="expense_investment">투자</option>
-            <option value="tax">세금</option>
-            <option value="expense_etc">기타등등</option>
+            <option value="식비">식비</option>
+            <option value="의류비">의류비</option>
+            <option value="투자">투자</option>
+            <option value="세금">세금</option>
+            <option value="기타등등">기타등등</option>
           </select>
         </div>
         <button>저장</button>

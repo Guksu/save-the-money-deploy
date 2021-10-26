@@ -13,6 +13,7 @@ const db = mysql.createConnection({
   host: "localhost",
   password: process.env.PASSWORD,
   database: "mydb",
+  dateStrings: "data",
 });
 
 // 회원가입 //
@@ -106,8 +107,8 @@ app.post("/account", async (req, res) => {
 
   if (profit !== 0) {
     db.query(
-      `INSERT INTO  ${profitSelect} (userid, profit, date) VALUES (?,?,?)`,
-      [userid, profit, date],
+      `INSERT INTO  profit (userid, profit, date,category) VALUES (?,?,?,?)`,
+      [userid, profit, date, profitSelect],
       (err, result) => {
         if (err) {
           console.log(err);
@@ -119,8 +120,8 @@ app.post("/account", async (req, res) => {
 
   if (expense !== 0) {
     db.query(
-      `INSERT INTO  ${expenseSelect} (userid, date, expense) VALUES (?,?,?)`,
-      [userid, date, expense],
+      `INSERT INTO  expense (userid, date, expense,category) VALUES (?,?,?,?)`,
+      [userid, date, expense, expenseSelect],
       (err, result) => {
         if (err) {
           console.log(err);
@@ -131,6 +132,41 @@ app.post("/account", async (req, res) => {
   }
 });
 
+//상세내역 확인
+app.post("/showProfit", async (req, res) => {
+  const {
+    body: { userid },
+  } = req;
+
+  db.query("SELECT * FROM profit WHERE userid=?", userid, (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    if (result.length > 0) {
+      res.send(result);
+      console.log("수입내역 전송 성공");
+    }
+  });
+});
+
+app.post("/showExpense", async (req, res) => {
+  const {
+    body: { userid },
+  } = req;
+
+  db.query("SELECT * FROM expense WHERE userid=?", userid, (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    if (result.length > 0) {
+      res.send(result);
+      console.log("지출내역 전송 성공");
+    }
+  });
+});
+
+//내역 수정
+app.post("/modify", (req, res) => {});
 app.listen(4000, () => {
   console.log("Server Start at Port 4000!🚀🚀");
 });
