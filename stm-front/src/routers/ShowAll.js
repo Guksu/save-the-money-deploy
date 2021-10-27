@@ -2,30 +2,37 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import Base from "../components/Base";
+const url = require("url");
 
 const ShowAll = () => {
   const history = useHistory();
-  const onClickBackHome = () => {
-    history.push("/home");
-  };
-
+  const onClickBackHome = () => history.push("/home");
   const [profitList, setProfitList] = useState([]);
 
   const [expenseList, setExpenseList] = useState([]);
 
   useEffect(async () => {
-    const profitRes = await axios.post("http://localhost:4000/showProfit", {
-      userid: sessionStorage.getItem("id"),
-    });
-
-    setProfitList(profitRes.data);
+    await axios
+      .get("http://localhost:4000/showProfit", {
+        params: {
+          userid: sessionStorage.getItem("id"),
+        },
+      })
+      .then((res) => {
+        setProfitList(res.data);
+      });
   }, []);
 
   useEffect(async () => {
-    const expenseRes = await axios.post("http://localhost:4000/showExpense", {
-      userid: sessionStorage.getItem("id"),
-    });
-    setExpenseList(expenseRes.data);
+    await axios
+      .get("http://localhost:4000/showExpense", {
+        params: {
+          userid: sessionStorage.getItem("id"),
+        },
+      })
+      .then((res) => {
+        setExpenseList(res.data);
+      });
   }, []);
 
   return (

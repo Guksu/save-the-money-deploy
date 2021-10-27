@@ -135,12 +135,11 @@ app.post("/account", async (req, res) => {
 });
 
 //상세내역 확인
-app.post("/showProfit", async (req, res) => {
+app.get("/showProfit", async (req, res) => {
   const {
-    body: { userid },
+    query: { userid },
   } = req;
-
-  db.query("SELECT * FROM profit WHERE userid=?", userid, (err, result) => {
+  db.query("SELECT * FROM profit WHERE userid=?", [userid], (err, result) => {
     if (err) {
       console.log(err);
     }
@@ -151,12 +150,12 @@ app.post("/showProfit", async (req, res) => {
   });
 });
 
-app.post("/showExpense", async (req, res) => {
+app.get("/showExpense", async (req, res) => {
   const {
-    body: { userid },
+    query: { userid },
   } = req;
 
-  db.query("SELECT * FROM expense WHERE userid=?", userid, (err, result) => {
+  db.query("SELECT * FROM expense WHERE userid=?", [userid], (err, result) => {
     if (err) {
       console.log(err);
     }
@@ -197,50 +196,51 @@ app.post("/deleteExpense", async (req, res) => {
 });
 
 // home 표시내역
-app.post("/allProfit", async (req, res) => {
+app.get("/allProfit", async (req, res) => {
   const {
-    body: { userid, date },
+    query: { userid, date },
   } = req;
 
   const findDate = `${date}%`;
-
-  db.query(
-    "SELECT sum(profit) FROM profit where userid=? and date like ?",
-    [userid, findDate],
-    (err, result) => {
-      if (err) {
-        console.log(err);
+  if (findDate !== `%`) {
+    db.query(
+      "SELECT sum(profit) as profit FROM profit where userid=? and date like ?",
+      [userid, findDate],
+      (err, result) => {
+        if (err) {
+          console.log(err);
+        }
+        if (result.length > 0) {
+          res.send(result);
+          console.log("총 수익내역 전송 성공");
+        }
       }
-      if (result.length > 0) {
-        res.send(result);
-        console.log("총 수익내역 전송 성공");
-      }
-    }
-  );
+    );
+  }
 });
 
-app.post("/allExpense", async (req, res) => {
+app.get("/allExpense", async (req, res) => {
   const {
-    body: { userid, date },
+    query: { userid, date },
   } = req;
 
   const findDate = `${date}%`;
-  console.log(req);
-  console.log("받은 원래 날짜:" + date);
-  console.log("받은 날짜:" + findDate);
-  db.query(
-    "SELECT sum(expense) FROM expense where userid=? and date like ?",
-    [userid, findDate],
-    (err, result) => {
-      if (err) {
-        console.log(err);
+  if (findDate !== `%`) {
+    db.query(
+      "SELECT sum(expense) as expense FROM expense where userid=? and date like ?",
+      [userid, findDate],
+      (err, result) => {
+        if (err) {
+          console.log(err);
+        }
+        if (result.length > 0) {
+          res.send(result);
+          console.log("총 지출내역 전송 성공");
+          console.log(result);
+        }
       }
-      if (result.length > 0) {
-        res.send(result);
-        console.log("총 지출내역 전송 성공");
-      }
-    }
-  );
+    );
+  }
 });
 
 app.listen(4000, () => {
