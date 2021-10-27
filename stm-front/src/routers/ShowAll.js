@@ -18,11 +18,13 @@ const ShowAll = () => {
       userid: sessionStorage.getItem("id"),
     });
 
+    setProfitList(profitRes.data);
+  }, []);
+
+  useEffect(async () => {
     const expenseRes = await axios.post("http://localhost:4000/showExpense", {
       userid: sessionStorage.getItem("id"),
     });
-
-    setProfitList(profitRes.data);
     setExpenseList(expenseRes.data);
   }, []);
 
@@ -30,10 +32,12 @@ const ShowAll = () => {
     <>
       <Base></Base>
       <div>
+        수익내역
         <ul>
           {profitList.map((item) => {
-            const onChangeClick = async () => {
-              await axios.post("http://localhost:4000/modify", {
+            const onRemoveClick = async () => {
+              window.location.reload();
+              await axios.post("http://localhost:4000/deleteProfit", {
                 profitNo: item.profitNo,
               });
             };
@@ -41,9 +45,8 @@ const ShowAll = () => {
             return (
               <>
                 <li key={item.profitNo}>
-                  {item.date} : {item.category}[ {item.profit}원 ]
-                  <button onClick={onChangeClick}>수정</button>
-                  <button>❌</button>
+                  {item.date} : {item.category} [ {item.profit.toLocaleString()}
+                  원 ]<button onClick={onRemoveClick}>❌</button>
                 </li>
               </>
             );
@@ -51,18 +54,22 @@ const ShowAll = () => {
         </ul>
       </div>
       <div>
+        지출내역
         <ul>
           {expenseList.map((item) => {
-            const onChangeClick = async () => {
-              await axios.post("http://localhost:4000/modify", {});
+            const onRemoveClick = async () => {
+              window.location.reload();
+              await axios.post("http://localhost:4000/deleteExpense", {
+                expenseNo: item.expenseNo,
+              });
             };
 
             return (
               <>
                 <li key={item.expenseNo}>
-                  {item.date} : {item.category} [ {item.expense} ]원
-                  <button onClick={onChangeClick}>수정</button>
-                  <button>❌</button>
+                  {item.date} : {item.category} [{" "}
+                  {item.expense.toLocaleString()}원 ]
+                  <button onClick={onRemoveClick}>❌</button>
                 </li>
               </>
             );

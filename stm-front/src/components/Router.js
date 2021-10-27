@@ -18,24 +18,14 @@ const AppRouter = () => {
       <Switch>
         {islogin ? (
           <>
-            <Route exact path="/home">
-              <Home></Home>
-            </Route>
-            <Route exact path="/account">
-              <Account></Account>
-            </Route>
-            <Route exact path="/showall">
-              <ShowAll></ShowAll>
-            </Route>
+            <Route exact path="/home" component={Home}></Route>
+            <Route exact path="/account" component={Account}></Route>
+            <Route exact path="/showall" component={ShowAll}></Route>
           </>
         ) : (
           <>
-            <Route exact path="/">
-              <Login></Login>
-            </Route>
-            <Route exact path="/register">
-              <RegisterUser></RegisterUser>
-            </Route>
+            <Route exact path="/" component={Login}></Route>
+            <Route exact path="/register" component={RegisterUser}></Route>
           </>
         )}
       </Switch>

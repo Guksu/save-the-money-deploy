@@ -113,6 +113,8 @@ app.post("/account", async (req, res) => {
         if (err) {
           console.log(err);
           res.status(404).send();
+        } else {
+          console.log("성공");
         }
       }
     );
@@ -165,8 +167,82 @@ app.post("/showExpense", async (req, res) => {
   });
 });
 
-//내역 수정
-app.post("/modify", (req, res) => {});
+//내역 삭제
+app.post("/deleteProfit", async (req, res) => {
+  const {
+    body: { profitNo },
+  } = req;
+
+  db.query("DELETE FROM profit WHERE profitNo=?", profitNo, (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+  });
+});
+
+app.post("/deleteExpense", async (req, res) => {
+  const {
+    body: { expenseNo },
+  } = req;
+
+  db.query(
+    "DELETE FROM expense WHERE expenseNo=?",
+    expenseNo,
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+    }
+  );
+});
+
+// home 표시내역
+app.post("/allProfit", async (req, res) => {
+  const {
+    body: { userid, date },
+  } = req;
+
+  const findDate = `${date}%`;
+
+  db.query(
+    "SELECT sum(profit) FROM profit where userid=? and date like ?",
+    [userid, findDate],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+      if (result.length > 0) {
+        res.send(result);
+        console.log("총 수익내역 전송 성공");
+      }
+    }
+  );
+});
+
+app.post("/allExpense", async (req, res) => {
+  const {
+    body: { userid, date },
+  } = req;
+
+  const findDate = `${date}%`;
+  console.log(req);
+  console.log("받은 원래 날짜:" + date);
+  console.log("받은 날짜:" + findDate);
+  db.query(
+    "SELECT sum(expense) FROM expense where userid=? and date like ?",
+    [userid, findDate],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+      if (result.length > 0) {
+        res.send(result);
+        console.log("총 지출내역 전송 성공");
+      }
+    }
+  );
+});
+
 app.listen(4000, () => {
   console.log("Server Start at Port 4000!🚀🚀");
 });

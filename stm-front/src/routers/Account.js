@@ -11,16 +11,16 @@ const Account = () => {
   };
 
   const [date, setDate] = useState("");
-  const [profit, setProfit] = useState(0);
-  const [expense, setExpense] = useState(0);
+  const [profit, setProfit] = useState("0");
+  const [expense, setExpense] = useState("0");
   const [profitSelect, setProfitSelect] = useState("기타등등");
   const [expenseSelect, setExpenseSelect] = useState("기타등등");
 
   const onSubmitAccount = async (e) => {
     await Axios.post("http://localhost:4000/account", {
       date: date,
-      profit: profit,
-      expense: expense,
+      profit: parseInt(profit.replace(/,/g, "")),
+      expense: parseInt(expense.replace(/,/g, "")),
       profitSelect: profitSelect,
       expenseSelect: expenseSelect,
       userid: sessionStorage.getItem("id"),
@@ -29,6 +29,17 @@ const Account = () => {
       .catch((err) => {
         alert("다시 입력하세요");
       });
+  };
+
+  //input값 콤마 입력코드
+  const changNum = (e) => {
+    const i = e.target;
+    const startPosition = i.value.length - i.selectionEnd;
+    i.value = i.value
+      .replace(/^0+|\D+/g, "")
+      .replace(/(\d)(?=(?:\d{3})+(?!\d))/g, "$1,");
+    const len = Math.max(i.value.length - startPosition, 0);
+    i.setSelectionRange(len, len);
   };
 
   return (
@@ -45,8 +56,8 @@ const Account = () => {
         ></input>
         <div>
           <input
-            type="number"
-            min="0"
+            type="text"
+            onInput={changNum}
             placeholder="수입을 입력하세요"
             name="profit"
             onChange={(event) => {
@@ -67,12 +78,12 @@ const Account = () => {
         </div>
         <div>
           <input
-            type="number"
-            min="0"
+            type="text"
+            onInput={changNum}
             placeholder="지출을 입력하세요"
             name="expense"
             onChange={(event) => {
-              setExpense(event.target.value);
+              setExpense(event.target.value.toLocaleString());
             }}
           ></input>
           <select
