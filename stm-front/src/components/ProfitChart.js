@@ -60,6 +60,7 @@ const ProfitChart = (props) => {
       <ResponsivePie
         data={data}
         margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+        valueFormat=" >-,"
         innerRadius={0.45}
         padAngle={0.7}
         cornerRadius={3}

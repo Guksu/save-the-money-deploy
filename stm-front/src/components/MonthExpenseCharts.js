@@ -1,8 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ResponsivePie } from "@nivo/pie";
+import axios from "axios";
 
-const ExpenseChart = (props) => {
-  const list = props.expenseList;
+const MonthExpenseCharts = (props) => {
+  const [list, setList] = useState([]);
+
+  const getExpense = async () => {
+    await axios
+      .get("http://localhost:4000/homeExpenseChart", {
+        params: {
+          date: props.selectMonth,
+          userid: sessionStorage.getItem("id"),
+        },
+      })
+      .then((res) => {
+        setList(res.data);
+      });
+  };
+
   const food = list.filter((item) => item.category === "식비");
   const clothes = list.filter((item) => item.category === "의류비");
   const investment = list.filter((item) => item.category === "투자");
@@ -67,6 +82,10 @@ const ExpenseChart = (props) => {
     },
   ];
 
+  useEffect(() => {
+    getExpense();
+  }, props.selectMonth);
+
   return (
     <div style={{ height: 300 }}>
       <ResponsivePie
@@ -116,4 +135,4 @@ const ExpenseChart = (props) => {
   );
 };
 
-export default ExpenseChart;
+export default MonthExpenseCharts;

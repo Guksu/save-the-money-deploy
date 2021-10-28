@@ -1,71 +1,78 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ResponsivePie } from "@nivo/pie";
+import axios from "axios";
 
-const ExpenseChart = (props) => {
-  const list = props.expenseList;
-  const food = list.filter((item) => item.category === "식비");
-  const clothes = list.filter((item) => item.category === "의류비");
+const MonthProfitCharts = (props) => {
+  const [list, setList] = useState([]);
+
+  const getProfit = async () => {
+    await axios
+      .get("http://localhost:4000/homeProfitChart", {
+        params: {
+          date: props.selectMonth,
+          userid: sessionStorage.getItem("id"),
+        },
+      })
+      .then((res) => {
+        setList(res.data);
+      });
+  };
+
+  const wage = list.filter((item) => item.category === "급여");
   const investment = list.filter((item) => item.category === "투자");
-  const tax = list.filter((item) => item.category === "세금");
+  const pocketMoney = list.filter((item) => item.category === "용돈");
   const etc = list.filter((item) => item.category === "기타등등");
 
-  let foodValue = 0;
-  for (let i = 0; i < food.length; i++) {
-    foodValue += food[i].expense;
-  }
-
-  let clothesValue = 0;
-  for (let i = 0; i < clothes.length; i++) {
-    clothesValue += clothes[i].expense;
+  let wageValue = 0;
+  for (let i = 0; i < wage.length; i++) {
+    wageValue += wage[i].profit;
   }
 
   let investmentValue = 0;
   for (let i = 0; i < investment.length; i++) {
-    investmentValue += investment[i].expense;
+    investmentValue += investment[i].profit;
   }
 
-  let taxValue = 0;
-  for (let i = 0; i < tax.length; i++) {
-    taxValue += tax[i].expense;
+  let pocketMoneyValue = 0;
+  for (let i = 0; i < pocketMoney.length; i++) {
+    pocketMoneyValue += pocketMoney[i].profit;
   }
 
   let etcValue = 0;
   for (let i = 0; i < etc.length; i++) {
-    etcValue += etc[i].expense;
+    etcValue += etc[i].profit;
   }
 
   const data = [
     {
-      id: "식비",
-      label: "식비",
-      value: foodValue,
+      id: "급여",
+      label: "급여",
+      value: wageValue,
       color: "hsl(5, 70%, 50%)",
-    },
-    {
-      id: "의류비",
-      label: "의류비",
-      value: clothesValue,
-      color: "hsl(17, 70%, 50%)",
     },
     {
       id: "투자",
       label: "투자",
       value: investmentValue,
-      color: "hsl(297, 70%, 50%)",
+      color: "hsl(17, 70%, 50%)",
     },
     {
-      id: "세금",
-      label: "세금",
-      value: taxValue,
-      color: "hsl(320, 70%, 50%)",
+      id: "용돈",
+      label: "용돈",
+      value: pocketMoneyValue,
+      color: "hsl(297, 70%, 50%)",
     },
     {
       id: "기타등등",
       label: "기타등등",
       value: etcValue,
-      color: "hsl(228, 70%, 50%)",
+      color: "hsl(320, 70%, 50%)",
     },
   ];
+
+  useEffect(() => {
+    getProfit();
+  }, [props.selectMonth]);
 
   return (
     <div style={{ height: 300 }}>
@@ -116,4 +123,4 @@ const ExpenseChart = (props) => {
   );
 };
 
-export default ExpenseChart;
+export default MonthProfitCharts;

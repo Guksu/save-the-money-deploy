@@ -226,6 +226,51 @@ app.get("/allExpense", async (req, res) => {
   }
 });
 
+//home chart
+app.get("/homeProfitChart", async (req, res) => {
+  const {
+    query: { userid, date },
+  } = req;
+
+  const findDate = `${date}%`;
+  if (findDate !== `%`) {
+    db.query(
+      "SELECT *  FROM profit where userid=? and date like ?",
+      [userid, findDate],
+      (err, result) => {
+        if (err) {
+          console.log(err);
+        }
+        if (result.length > 0) {
+          res.send(result);
+        }
+      }
+    );
+  }
+});
+
+app.get("/homeExpenseChart", async (req, res) => {
+  const {
+    query: { userid, date },
+  } = req;
+
+  const findDate = `${date}%`;
+  if (findDate !== `%`) {
+    db.query(
+      "SELECT *  FROM expense where userid=? and date like ?",
+      [userid, findDate],
+      (err, result) => {
+        if (err) {
+          console.log(err);
+        }
+        if (result.length > 0) {
+          res.send(result);
+        }
+      }
+    );
+  }
+});
+
 app.listen(4000, () => {
   console.log("Server Start at Port 4000!🚀🚀");
 });

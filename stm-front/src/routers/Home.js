@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
+import MonthExpenseCharts from "../components/MonthExpenseCharts";
+import MonthProfitCharts from "../components/MonthProfitCharts";
 
 const Home = () => {
   const [selectMonth, setSelectMonth] = useState(
@@ -51,6 +53,8 @@ const Home = () => {
         }}
         defaultValue={new Date().toISOString().slice(0, 7)}
       ></input>
+      <MonthProfitCharts selectMonth={selectMonth}></MonthProfitCharts>
+      <MonthExpenseCharts selectMonth={selectMonth}></MonthExpenseCharts>
       <ul>
         {allProfit.map((item) => {
           if (item.profit !== null) {
