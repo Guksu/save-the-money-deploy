@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Base from "../components/Base";
 import { useHistory } from "react-router-dom";
 import Axios from "axios";
+import Header from "../components/Header";
 
 const Account = () => {
   const history = useHistory();
@@ -44,7 +44,7 @@ const Account = () => {
 
   return (
     <>
-      <Base></Base>
+      <Header></Header>
       <form onSubmit={onSubmitAccount}>
         <input
           type="date"

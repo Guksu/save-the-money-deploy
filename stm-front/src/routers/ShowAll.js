@@ -1,8 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import Base from "../components/Base";
-const url = require("url");
+import ExpenseChart from "../components/ExpenseChart";
+import Header from "../components/Header";
+import ProfitChart from "../components/ProfitChart";
 
 const ShowAll = () => {
   const history = useHistory();
@@ -37,7 +38,8 @@ const ShowAll = () => {
 
   return (
     <>
-      <Base></Base>
+      <Header></Header>
+      <ProfitChart profitList={profitList}></ProfitChart>
       <div>
         수익내역
         <ul>
@@ -60,6 +62,7 @@ const ShowAll = () => {
           })}
         </ul>
       </div>
+      <ExpenseChart expenseList={expenseList}></ExpenseChart>
       <div>
         지출내역
         <ul>

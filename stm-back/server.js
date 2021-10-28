@@ -74,31 +74,6 @@ app.post("/login", async (req, res) => {
   });
 });
 
-// //카카오로그인
-// app.post("/kakaologin", async (req, res) => {
-//   const {
-//     body: { code },
-//   } = req;
-
-//   const hashcode = bcryptjs.hashSync(code, 5, (err, result) => {
-//     if (err) {
-//       console.log(err);
-//     }
-//   });
-
-//   db.query(
-//     "INSERT INTO socialuser (userid) VALUES (?)",
-//     [hashcode],
-//     (err, result) => {
-//       if (err) {
-//         console.log(err);
-//         res.status(404).send();
-//       }
-//     }
-//   );
-//   res.status(200).send();
-// });
-
 //가계부 작성
 app.post("/account", async (req, res) => {
   const {
@@ -139,15 +114,19 @@ app.get("/showProfit", async (req, res) => {
   const {
     query: { userid },
   } = req;
-  db.query("SELECT * FROM profit WHERE userid=?", [userid], (err, result) => {
-    if (err) {
-      console.log(err);
+  db.query(
+    "SELECT * FROM profit WHERE userid=? ORDER BY date desc ",
+    [userid],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+      if (result.length > 0) {
+        res.send(result);
+        console.log("수입내역 전송 성공");
+      }
     }
-    if (result.length > 0) {
-      res.send(result);
-      console.log("수입내역 전송 성공");
-    }
-  });
+  );
 });
 
 app.get("/showExpense", async (req, res) => {
@@ -155,15 +134,19 @@ app.get("/showExpense", async (req, res) => {
     query: { userid },
   } = req;
 
-  db.query("SELECT * FROM expense WHERE userid=?", [userid], (err, result) => {
-    if (err) {
-      console.log(err);
+  db.query(
+    "SELECT * FROM expense WHERE userid=? ORDER BY date desc",
+    [userid],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+      if (result.length > 0) {
+        res.send(result);
+        console.log("지출내역 전송 성공");
+      }
     }
-    if (result.length > 0) {
-      res.send(result);
-      console.log("지출내역 전송 성공");
-    }
-  });
+  );
 });
 
 //내역 삭제

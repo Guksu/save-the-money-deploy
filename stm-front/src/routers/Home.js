@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Base from "../components/Base";
+import Header from "../components/Header";
 
 const Home = () => {
   const [selectMonth, setSelectMonth] = useState(
@@ -41,10 +41,9 @@ const Home = () => {
     getExpense();
   }, [selectMonth]);
 
-  const checkNull = () => {};
   return (
     <>
-      <Base></Base>
+      <Header></Header>
       <input
         type="month"
         onChange={(e) => {
