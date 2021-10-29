@@ -1,18 +1,18 @@
 import React from "react";
-import { useHistory } from "react-router";
+import styled from "styled-components";
+const Head = styled.h1`
+  font-size: 40px;
+  font-weight: 900;
+  color: #00adc2;
+  display: flex;
+  justify-content: center;
+  margin: 40px;
+`;
 
 const Header = () => {
-  const history = useHistory();
-
-  const onClickLogout = () => {
-    sessionStorage.removeItem("id");
-    history.push("/");
-    window.location.reload();
-  };
   return (
     <>
-      <header>Save The Money</header>
-      <button onClick={onClickLogout}>로그아웃</button>
+      <Head>Save The Money</Head>
     </>
   );
 };

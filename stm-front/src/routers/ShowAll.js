@@ -2,14 +2,17 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import ExpenseChart from "../components/ExpenseChart";
-import Header from "../components/Header";
 import ProfitChart from "../components/ProfitChart";
+import ProfitList from "../components/ProfitList";
+import ExpenseList from "../components/ExpenseList";
+import ShowAllStyle from "../styles/ShowAllStyle";
+
+const { ChartDiv, ListDiv, Profit, Expense, BtnDiv, BackBtn } = ShowAllStyle;
 
 const ShowAll = () => {
   const history = useHistory();
   const onClickBackHome = () => history.push("/home");
   const [profitList, setProfitList] = useState([]);
-
   const [expenseList, setExpenseList] = useState([]);
 
   useEffect(async () => {
@@ -25,7 +28,7 @@ const ShowAll = () => {
   }, []);
 
   useEffect(async () => {
-    await axios
+    axios
       .get("http://localhost:4000/showExpense", {
         params: {
           userid: sessionStorage.getItem("id"),
@@ -38,55 +41,29 @@ const ShowAll = () => {
 
   return (
     <>
-      <Header></Header>
-      <ProfitChart profitList={profitList}></ProfitChart>
-      <div>
-        수익내역
-        <ul>
-          {profitList.map((item) => {
-            const onRemoveClick = async () => {
-              window.location.reload();
-              await axios.post("http://localhost:4000/deleteProfit", {
-                profitNo: item.profitNo,
-              });
-            };
-
-            return (
-              <>
-                <li key={item.profitNo}>
-                  {item.date} : {item.category} [ {item.profit.toLocaleString()}
-                  원 ]<button onClick={onRemoveClick}>❌</button>
-                </li>
-              </>
-            );
-          })}
-        </ul>
-      </div>
-      <ExpenseChart expenseList={expenseList}></ExpenseChart>
-      <div>
-        지출내역
-        <ul>
-          {expenseList.map((item) => {
-            const onRemoveClick = async () => {
-              window.location.reload();
-              await axios.post("http://localhost:4000/deleteExpense", {
-                expenseNo: item.expenseNo,
-              });
-            };
-
-            return (
-              <>
-                <li key={item.expenseNo}>
-                  {item.date} : {item.category} [{" "}
-                  {item.expense.toLocaleString()}원 ]
-                  <button onClick={onRemoveClick}>❌</button>
-                </li>
-              </>
-            );
-          })}
-        </ul>
-      </div>
-      <button onClick={onClickBackHome}>돌아가기</button>
+      <ChartDiv>
+        <div />
+        <ProfitChart profitList={profitList}></ProfitChart>
+        <ExpenseChart expenseList={expenseList}></ExpenseChart>
+      </ChartDiv>
+      <ListDiv>
+        <div />
+        <Profit>
+          수익내역
+          <ul>
+            <ProfitList profitList={profitList}></ProfitList>
+          </ul>
+        </Profit>
+        <Expense>
+          지출내역
+          <ul>
+            <ExpenseList expenseList={expenseList}></ExpenseList>
+          </ul>
+        </Expense>
+      </ListDiv>
+      <BtnDiv>
+        <BackBtn onClick={onClickBackHome}>돌아가기</BackBtn>
+      </BtnDiv>
     </>
   );
 };

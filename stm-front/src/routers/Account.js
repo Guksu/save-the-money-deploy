@@ -1,7 +1,21 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import Axios from "axios";
-import Header from "../components/Header";
+import AccountStyle from "../styles/AccountStyle";
+
+const {
+  AccountForm,
+  Calender,
+  ProfitDiv,
+  Profit,
+  ProfitSelect,
+  ExpenseDiv,
+  Expense,
+  ExpenseSelect,
+  SaveBtn,
+  BackBtnDiv,
+  BackBtn,
+} = AccountStyle;
 
 const Account = () => {
   const history = useHistory();
@@ -44,18 +58,17 @@ const Account = () => {
 
   return (
     <>
-      <Header></Header>
-      <form onSubmit={onSubmitAccount}>
-        <input
+      <AccountForm onSubmit={onSubmitAccount}>
+        <Calender
           type="date"
           placeholder="날짜를 선택하세요"
           required
           onChange={(event) => {
             setDate(event.target.value);
           }}
-        ></input>
-        <div>
-          <input
+        ></Calender>
+        <ProfitDiv>
+          <Profit
             type="text"
             onInput={changNum}
             placeholder="수입을 입력하세요"
@@ -63,8 +76,8 @@ const Account = () => {
             onChange={(event) => {
               setProfit(event.target.value);
             }}
-          ></input>
-          <select
+          ></Profit>
+          <ProfitSelect
             onChange={(event) => {
               setProfitSelect(event.target.value);
             }}
@@ -74,10 +87,10 @@ const Account = () => {
             <option value="투자">투자</option>
             <option value="용돈">용돈</option>
             <option value="기타등등">기타등등</option>
-          </select>
-        </div>
-        <div>
-          <input
+          </ProfitSelect>
+        </ProfitDiv>
+        <ExpenseDiv>
+          <Expense
             type="text"
             onInput={changNum}
             placeholder="지출을 입력하세요"
@@ -85,8 +98,8 @@ const Account = () => {
             onChange={(event) => {
               setExpense(event.target.value.toLocaleString());
             }}
-          ></input>
-          <select
+          ></Expense>
+          <ExpenseSelect
             onChange={(event) => {
               setExpenseSelect(event.target.value);
             }}
@@ -97,11 +110,13 @@ const Account = () => {
             <option value="투자">투자</option>
             <option value="세금">세금</option>
             <option value="기타등등">기타등등</option>
-          </select>
-        </div>
-        <button>저장</button>
-      </form>
-      <button onClick={onClickBackHome}>돌아가기</button>
+          </ExpenseSelect>
+        </ExpenseDiv>
+        <SaveBtn>저장</SaveBtn>
+      </AccountForm>
+      <BackBtnDiv>
+        <BackBtn onClick={onClickBackHome}>돌아가기</BackBtn>
+      </BackBtnDiv>
     </>
   );
 };

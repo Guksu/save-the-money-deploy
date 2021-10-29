@@ -1,8 +1,8 @@
 const express = require("express");
-const mysql = require("mysql");
-const cors = require("cors");
 const app = express();
+const cors = require("cors");
 const bcryptjs = require("bcryptjs");
+const mysql = require("mysql");
 require("dotenv").config();
 
 app.use(cors());
@@ -219,7 +219,6 @@ app.get("/allExpense", async (req, res) => {
         if (result.length > 0) {
           res.send(result);
           console.log("총 지출내역 전송 성공");
-          console.log(result);
         }
       }
     );

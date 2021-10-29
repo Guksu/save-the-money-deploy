@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import { Link, useHistory } from "react-router-dom";
+import LoginStlye from "../styles/LoginStyle";
+
+const { LoginBtn, LoginInput, Input, BtnDiv, RegBtn } = LoginStlye;
+
 const Login = () => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
@@ -30,28 +34,32 @@ const Login = () => {
 
   return (
     <>
-      <input
-        type="text"
-        placeholder="아이디를 입력하세요"
-        required
-        name="id"
-        onChange={(event) => {
-          setId(event.target.value);
-        }}
-      ></input>
-      <input
-        type="password"
-        placeholder="비밀번호를 입력하세요"
-        required
-        name="password"
-        onChange={(event) => {
-          setPassword(event.target.value);
-        }}
-      ></input>
-      <button onClick={onLoginClick}>로그인</button>
-      <Link to="/register">
-        <button>회원가입</button>
-      </Link>
+      <LoginInput>
+        <Input
+          type="text"
+          placeholder="아이디를 입력하세요"
+          required
+          name="id"
+          onChange={(event) => {
+            setId(event.target.value);
+          }}
+        ></Input>
+        <Input
+          type="password"
+          placeholder="비밀번호를 입력하세요"
+          required
+          name="password"
+          onChange={(event) => {
+            setPassword(event.target.value);
+          }}
+        ></Input>
+      </LoginInput>
+      <BtnDiv>
+        <LoginBtn onClick={onLoginClick}>로그인</LoginBtn>
+        <Link to="/register">
+          <RegBtn>회원가입</RegBtn>
+        </Link>
+      </BtnDiv>
       {/* <div>
         <button onClick={onGitHubLogin} name="github">
           깃허브 로그인
