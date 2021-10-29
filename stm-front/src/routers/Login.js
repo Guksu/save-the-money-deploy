@@ -60,14 +60,6 @@ const Login = () => {
           <RegBtn>회원가입</RegBtn>
         </Link>
       </BtnDiv>
-      {/* <div>
-        <button onClick={onGitHubLogin} name="github">
-          깃허브 로그인
-        </button>
-        <button onClick={onKaKaoLogin} name="kakao">
-          카카오 로그인
-        </button>
-      </div> */}
     </>
   );
 };
