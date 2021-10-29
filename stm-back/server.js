@@ -9,15 +9,14 @@ app.use(cors());
 app.use(express.json());
 
 const db = mysql.createConnection({
-  user: "root",
-  host: "localhost",
-  password: process.env.PASSWORD,
-  database: "mydb",
+  user: "b07e9d95f11cc3",
+  host: "us-cdbr-east-04.cleardb.com",
+  password: "ff0c5894",
+  database: "heroku_5e8a64447b6ff5a",
   dateStrings: "data",
 });
-
 // 회원가입 //
-app.post("/adduser", (req, res) => {
+mysql: app.post("/adduser", (req, res) => {
   const {
     body: { id, password },
   } = req;
@@ -270,6 +269,6 @@ app.get("/homeExpenseChart", async (req, res) => {
   }
 });
 
-app.listen(4000, () => {
+app.listen(process.env.PORT || 4000, () => {
   console.log("Server Start at Port 4000!🚀🚀");
 });

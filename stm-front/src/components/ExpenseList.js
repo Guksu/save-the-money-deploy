@@ -12,9 +12,12 @@ const ExpenseList = (props) => {
       {list.map((item) => {
         const onRemoveClick = async () => {
           window.location.reload();
-          await axios.post("http://localhost:4000/deleteExpense", {
-            expenseNo: item.expenseNo,
-          });
+          await axios.post(
+            "https://save-the-money.herokuapp.com/deleteExpense",
+            {
+              expenseNo: item.expenseNo,
+            }
+          );
         };
 
         return (

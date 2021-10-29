@@ -12,7 +12,7 @@ const Login = () => {
   const history = useHistory();
 
   const onLoginClick = async () => {
-    await Axios.post("http://localhost:4000/login", {
+    await Axios.post("https://save-the-money.herokuapp.com/login", {
       id: id,
       password: password,
     })

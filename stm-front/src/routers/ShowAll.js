@@ -17,7 +17,7 @@ const ShowAll = () => {
 
   useEffect(async () => {
     await axios
-      .get("http://localhost:4000/showProfit", {
+      .get("https://save-the-money.herokuapp.com/showProfit", {
         params: {
           userid: sessionStorage.getItem("id"),
         },
@@ -29,7 +29,7 @@ const ShowAll = () => {
 
   useEffect(async () => {
     axios
-      .get("http://localhost:4000/showExpense", {
+      .get("https://save-the-money.herokuapp.com/showExpense", {
         params: {
           userid: sessionStorage.getItem("id"),
         },

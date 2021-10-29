@@ -10,7 +10,7 @@ const RegisterUser = () => {
   const [password, setPassword] = useState("");
 
   const addUser = async () => {
-    await Axios.post("http://localhost:4000/adduser", {
+    await Axios.post("https://save-the-money.herokuapp.com/adduser", {
       id: id,
       password: password,
     })
