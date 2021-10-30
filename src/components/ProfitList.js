@@ -13,7 +13,7 @@ const ProfitList = (props) => {
         const onRemoveClick = async () => {
           window.location.reload();
           await axios.post(
-            "https://save-the-money.herokuapp.com/deleteProfit",
+            "http://localhost:3306/deleteProfit",
             {
               profitNo: item.profitNo,
             }
