@@ -31,7 +31,7 @@ const Account = () => {
   const [expenseSelect, setExpenseSelect] = useState("기타등등");
 
   const onSubmitAccount = async (e) => {
-    await Axios.post("http://localhost:3306/account", {
+    await Axios.post("https://save-money-back.herokuapp.com/account", {
       date: date,
       profit: parseInt(profit.replace(/,/g, "")),
       expense: parseInt(expense.replace(/,/g, "")),
