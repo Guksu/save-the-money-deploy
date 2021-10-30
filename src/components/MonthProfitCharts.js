@@ -7,7 +7,7 @@ const MonthProfitCharts = (props) => {
 
   const getProfit = async () => {
     await axios
-      .get("http://localhost:3306/homeProfitChart", {
+      .get("https://save-money-back.herokuapp.com/homeProfitChart", {
         params: {
           date: props.selectMonth,
           userid: sessionStorage.getItem("id"),
