@@ -13,7 +13,7 @@ const ExpenseList = (props) => {
         const onRemoveClick = async () => {
           window.location.reload();
           await axios.post(
-            "http://localhost:3306/deleteExpense",
+            "https://save-money-back.herokuapp.com/deleteExpense",
             {
               expenseNo: item.expenseNo,
             }
